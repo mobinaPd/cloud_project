@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/games', [\App\Http\Controllers\GameController::class, 'index']);
 Route::get('/rank/{rank}', [\App\Http\Controllers\GameController::class, 'rank']);
-// Route::get('/name/{name}', [\App\Http\Controllers\GameController::class, 'name']);
-// Route::get('/bestgameplat/{N}', [\App\Http\Controllers\GameController::class, 'bestGamePlat']);
-// Route::get('/bestgameyear/{N}', [\App\Http\Controllers\GameController::class, 'bestGameYear']);
-// Route::get('/bestgamegenre/{N}', [\App\Http\Controllers\GameController::class, 'bestGameGen']);
-// Route::get('/best5/{year , plat}', [\App\Http\Controllers\GameController::class, 'best5']);
-// Route::get('/euMoreNa', [\App\Http\Controllers\GameController::class, 'euMoreNa']);
+Route::get('/name/{name}', [\App\Http\Controllers\GameController::class, 'name']);
+Route::get('/bestgameplat/{N}', [\App\Http\Controllers\GameController::class, 'bestGamePlat']);
+Route::get('/bestgameyear/{N}', [\App\Http\Controllers\GameController::class, 'bestGameYear']);
+Route::get('/bestgamegenre/{N}', [\App\Http\Controllers\GameController::class, 'bestGameGen']);
+Route::get('/best5/{year}/{plat}', [\App\Http\Controllers\GameController::class, 'best5']);
+Route::get('/euMoreNa', [\App\Http\Controllers\GameController::class, 'euMoreNa']);
 

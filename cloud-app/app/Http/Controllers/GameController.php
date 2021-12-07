@@ -20,37 +20,51 @@ class GameController extends Controller
 
     }
 
-    // public function bestGamePlat($N){
-    //     return Game::select('Name')->groupBy('Platform')->orderBy('Rank', 'desc')->limit($N)->get();
+    public function bestGamePlat($N)
+    {
+        $results = DB::select(DB::raw("SELECT * FROM (
+            SELECT *, IF(@prev <> `Platform`, @rn:=0,@rn), @prev:= `Platform`, @rn:=@rn+1 AS rn
+            FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
+            ORDER BY `Platform` ASC, `Rank` ASC
+          ) t WHERE rn <= $N"));
+        return $results;
+    }
 
-    // }
+    public function bestGameYear($N)
+    {
 
-    // public function bestGameYear($N){
-    //     return DB::table('games')->select('Name')->groupBy('Year')->orderBy('Rank', 'desc')->limit($N)->get();
+        $results = DB::select(DB::raw("SELECT * FROM (
+            SELECT *, IF(@prev <> `Year`, @rn:=0,@rn), @prev:= `Year`, @rn:=@rn+1 AS rn
+            FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
+            ORDER BY `Year` ASC, `Rank` ASC
+          ) t WHERE rn <= $N"));
+        return $results;
 
-    // }
+    }
 
-    // public function bestGameGen($N){
-    //     return DB::table('games')->select('Name')->groupBy('Genre')->orderBy('Rank', 'desc')->limit($N)->get();
+    public function bestGameGen($N)
+    {
+        $results = DB::select(DB::raw("SELECT * FROM (
+            SELECT *, IF(@prev <> `Genre`, @rn:=0,@rn), @prev:= `Genre`, @rn:=@rn+1 AS rn
+            FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
+            ORDER BY `Genre` ASC, `Genre` ASC
+          ) t WHERE rn <= $N"));
+        return $results;
 
-    // }
+    }
 
+    public function best5($year , $plat)
+    {
+        $results = DB::select(DB::raw("SELECT * FROM `games` WHERE `Year`= '$year' AND `Platform` = '$plat'
+        ORDER BY `Global_Sales` LIMIT 5 "));
 
-    // public function best5($year , $plat){
-    //     return DB::table('games')->select('Name')->groupBy('Platform')->where('Year', '=', $year)->where('Platform', '=', $plat)
-    //     -> orderBy('Global_Sales', 'desc')->limit(5)->get();
+        return $results;
+    }
 
-    //     // SELECT * FROM `games`
-    //     // WHERE `Year` = 2006 AND `Platform` = "Wii"
-    //     // ORDER BY `Global_Sales`
-    //     // LIMIT 5
-
-    // }
-
-    // public function euMoreNa(){
-    //     return Game::select('Name')->where('NA_Sales','>','EU_Sales')->get();
-    //     // SELECT `Name` FROM `games` WHERE `NA_Sales` < `EU_Sales`
-
-    // }
+    public function euMoreNa()
+    {
+        $results = DB::select(DB::raw("SELECT * FROM `games` WHERE `NA_Sales` < `EU_Sales` "));
+        return $results;
+    }
 
 }
