@@ -26,4 +26,9 @@ Route::get('/bestgameyear/{N}', [\App\Http\Controllers\GameController::class, 'b
 Route::get('/bestgamegenre/{N}', [\App\Http\Controllers\GameController::class, 'bestGameGen']);
 Route::get('/best5/{year}/{plat}', [\App\Http\Controllers\GameController::class, 'best5']);
 Route::get('/euMoreNa', [\App\Http\Controllers\GameController::class, 'euMoreNa']);
+Route::get('/compareSel/{g1}/{g2}', [\App\Http\Controllers\GameController::class, 'compareSel']);
+Route::get('/totalSel/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'totalSel']);
+Route::get('/compareSelPublisher/{p1}/{p2}/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelPublisher']);
+Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelGen']);
+
 
