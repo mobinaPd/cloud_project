@@ -18,17 +18,22 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/games', [\App\Http\Controllers\GameController::class, 'index']);
-Route::get('/rank/{rank}', [\App\Http\Controllers\GameController::class, 'rank']);
-Route::get('/name/{name}', [\App\Http\Controllers\GameController::class, 'name']);
-Route::get('/bestgameplat/{N}', [\App\Http\Controllers\GameController::class, 'bestGamePlat']);
-Route::get('/bestgameyear/{N}', [\App\Http\Controllers\GameController::class, 'bestGameYear']);
-Route::get('/bestgamegenre/{N}', [\App\Http\Controllers\GameController::class, 'bestGameGen']);
-Route::get('/best5/{year}/{plat}', [\App\Http\Controllers\GameController::class, 'best5']);
-Route::get('/euMoreNa', [\App\Http\Controllers\GameController::class, 'euMoreNa']);
-Route::get('/compareSel/{g1}/{g2}', [\App\Http\Controllers\GameController::class, 'compareSel']);
-Route::get('/totalSel/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'totalSel']);
-Route::get('/compareSelPublisher/{p1}/{p2}/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelPublisher']);
-Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelGen']);
+
+Route::get('/games', [\App\Http\Controllers\GameController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/rank/{rank}', [\App\Http\Controllers\GameController::class, 'rank'])->middleware('auth:sanctum');
+Route::get('/name/{name}', [\App\Http\Controllers\GameController::class, 'name'])->middleware('auth:sanctum');
+Route::get('/bestgameplat/{N}', [\App\Http\Controllers\GameController::class, 'bestGamePlat'])->middleware('auth:sanctum');
+Route::get('/bestgameyear/{N}', [\App\Http\Controllers\GameController::class, 'bestGameYear'])->middleware('auth:sanctum');
+Route::get('/bestgamegenre/{N}', [\App\Http\Controllers\GameController::class, 'bestGameGen'])->middleware('auth:sanctum');
+Route::get('/best5/{year}/{plat}', [\App\Http\Controllers\GameController::class, 'best5'])->middleware('auth:sanctum');
+Route::get('/euMoreNa', [\App\Http\Controllers\GameController::class, 'euMoreNa'])->middleware('auth:sanctum');
+Route::get('/compareSel/{g1}/{g2}', [\App\Http\Controllers\GameController::class, 'compareSel'])->middleware('auth:sanctum');
+Route::get('/totalSel/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'totalSel'])->middleware('auth:sanctum');
+Route::get('/compareSelPublisher/{p1}/{p2}/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelPublisher'])->middleware('auth:sanctum');
+Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\GameController::class, 'compareSelGen'])->middleware('auth:sanctum');
+
+Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
