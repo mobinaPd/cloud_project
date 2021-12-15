@@ -22,7 +22,7 @@ class GameController extends Controller
 
     public function bestGamePlat($N)
     {
-        $results = DB::select(DB::raw("SELECT * FROM (
+        $results = DB::connection('mysql2')->select(DB::raw("SELECT * FROM (
             SELECT *, IF(@prev <> `Platform`, @rn:=0,@rn), @prev:= `Platform`, @rn:=@rn+1 AS rn
             FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
             ORDER BY `Platform` ASC, `Rank` ASC
@@ -33,7 +33,7 @@ class GameController extends Controller
     public function bestGameYear($N)
     {
 
-        $results = DB::select(DB::raw("SELECT * FROM (
+        $results = DB::connection('mysql2')->select(DB::raw("SELECT * FROM (
             SELECT *, IF(@prev <> `Year`, @rn:=0,@rn), @prev:= `Year`, @rn:=@rn+1 AS rn
             FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
             ORDER BY `Year` ASC, `Rank` ASC
@@ -44,7 +44,7 @@ class GameController extends Controller
 
     public function bestGameGen($N)
     {
-        $results = DB::select(DB::raw("SELECT * FROM (
+        $results = DB::connection('mysql2')->select(DB::raw("SELECT * FROM (
             SELECT *, IF(@prev <> `Genre`, @rn:=0,@rn), @prev:= `Genre`, @rn:=@rn+1 AS rn
             FROM `games`, (SELECT @rn:=0) rn, (SELECT @prev:='') prev
             ORDER BY `Genre` ASC, `Genre` ASC
@@ -55,8 +55,8 @@ class GameController extends Controller
 
     public function best5($year , $plat)
     {
-        $results = DB::select(DB::raw("SELECT * FROM `games` WHERE `Year`= '$year' AND `Platform` = '$plat'
-        ORDER BY `Global_Sales` LIMIT 5 "));
+        $results = DB::connection('mysql2')->select(DB::raw("SELECT * FROM `games` WHERE `Year`= '$year' AND `Platform` = '$plat'
+        ORDER BY `Global_Sales` DESC LIMIT 5 "));
 
         return $results;
     }
@@ -64,7 +64,7 @@ class GameController extends Controller
 
     public function euMoreNa()
     {
-        $results = DB::select(DB::raw("SELECT * FROM `games` WHERE `NA_Sales` < `EU_Sales` "));
+        $results = DB::connection('mysql2')->select(DB::raw("SELECT * FROM `games` WHERE `NA_Sales` < `EU_Sales` "));
         return $results;
     }
 
@@ -74,10 +74,10 @@ class GameController extends Controller
 
         $all = array();
 
-        $result1 = DB::select(DB::raw("SELECT `Name` , `Global_Sales`
+        $result1 = DB::connection('mysql2')->select(DB::raw("SELECT `Name` , `Global_Sales`, `NA_Sales`, `EU_Sales`, `JP_Sales`, `Other_Sales`
         FROM `games` WHERE `Name` = '$g1'"));
 
-        $result2 = DB::select(DB::raw("SELECT `Name` , `Global_Sales`
+        $result2 = DB::connection('mysql2')->select(DB::raw("SELECT `Name` , `Global_Sales`, `NA_Sales`, `EU_Sales`, `JP_Sales`, `Other_Sales`
         FROM `games` WHERE `Name` = '$g2'"));
 
 
@@ -96,7 +96,7 @@ class GameController extends Controller
         while($t1 <= $t2)
         {
 
-            ${'result' . $t1} = DB::select(DB::raw("SELECT `Year` ,  SUM(`Global_Sales`) FROM `games` WHERE `Year` = '$t1' "));
+            ${'result' . $t1} = DB::connection('mysql2')->select(DB::raw("SELECT `Year` ,  SUM(`Global_Sales`) FROM `games` WHERE `Year` = '$t1' "));
             array_push( $all, ${'result' . $t1} );
             $t1 ++ ;
         }
@@ -112,10 +112,10 @@ class GameController extends Controller
         while($t1 <= $t2)
         {
 
-            ${'result1' . $t1} = DB::select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
+            ${'result1' . $t1} = DB::connection('mysql2')->select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
              WHERE `Year` = '$t1' AND `Publisher` = '$p1' "));
 
-            ${'result2' . $t1} = DB::select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
+            ${'result2' . $t1} = DB::connection('mysql2')->select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
             WHERE `Year` = '$t1' AND `Publisher` = '$p2' "));
 
             array_push( $all, ${'result1' . $t1} );
@@ -138,7 +138,7 @@ class GameController extends Controller
         for($i = 0 ; $i< count($gens); $i++)
         {
 
-            $result = DB::select(DB::raw("SELECT `Genre`, SUM(`Global_Sales`) FROM `games`
+            $result = DB::connection('mysql2')->select(DB::raw("SELECT `Genre`, SUM(`Global_Sales`) FROM `games`
             WHERE `Year` BETWEEN '$t1' AND '$t2' AND `Genre` = '$gens[$i]' "));
 
 
