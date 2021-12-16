@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'compareSelGen']);
