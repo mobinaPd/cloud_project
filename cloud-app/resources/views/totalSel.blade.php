@@ -24,10 +24,10 @@ hello world
         var barChart = new Chart(barCanvas,{
             type: 'bar',
             data:{
-                labels :lbls
+                labels :lbls,
                 datasets:[
                     {
-                        label: 'Compare Sales By Genres',
+                        label: 'Compare Sales By Years',
                         data: datas,
                         // backgroundColor:['blue','red','orange','yellow','green', 'black','blue','red','orange','yellow','green', 'black']
                     }
