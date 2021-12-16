@@ -23,7 +23,31 @@ class ChartController extends Controller
             $all[$i] = $result[0]->{'SUM(`Global_Sales`)'};
 
         }
-//        dd($all);
+
         return view('compareSelGen', compact('all'));
     }
+
+
+
+    public function totalSel($t1 , $t2)
+    {
+        $all = array();
+        $label = array();
+
+        while($t1 <= $t2)
+        {
+
+            $result = DB::connection('mysql2')->select(DB::raw("SELECT `Year` ,  SUM(`Global_Sales`) FROM `games` WHERE `Year` = '$t1' "));
+            array_push( $all, $result[0]->{'SUM(`Global_Sales`)'});
+            array_push( $label, $result[0]->{'Year'});
+
+            $t1 ++ ;
+        }
+
+        return view('totalSel', compact('all' , 'label'));
+        return $all;
+    }
 }
+
+
+

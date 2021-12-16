@@ -6,6 +6,8 @@ use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function PHPSTORM_META\type;
+
 class GameController extends Controller
 {
     public function index(){
@@ -138,16 +140,19 @@ class GameController extends Controller
         for($i = 0 ; $i< count($gens); $i++)
         {
 
-            $result = DB::connection('mysql2')->select(DB::raw("SELECT `Genre`, SUM(`Global_Sales`) FROM `games`
+            $result = DB::connection('mysql2')->select(DB::raw("SELECT SUM(`Global_Sales`) FROM `games`
             WHERE `Year` BETWEEN '$t1' AND '$t2' AND `Genre` = '$gens[$i]' "));
-
-
             array_push( $all, $result );
+
         }
 
         return $all;
     }
 
 }
+
+
+
+
 
 
