@@ -45,9 +45,41 @@ class ChartController extends Controller
         }
 
         return view('totalSel', compact('all' , 'label'));
-        return $all;
+
     }
+
+
+    public function compareSel($g1 , $g2)
+    {
+
+        $all1 = array();
+        $all2 = array();
+
+        $result1 = DB::connection('mysql2')->select(DB::raw("SELECT `Name` , `Global_Sales`, `NA_Sales`, `EU_Sales`, `JP_Sales`, `Other_Sales`
+        FROM `games` WHERE `Name` = '$g1'"));
+
+        $result2 = DB::connection('mysql2')->select(DB::raw("SELECT `Name` , `Global_Sales`, `NA_Sales`, `EU_Sales`, `JP_Sales`, `Other_Sales`
+        FROM `games` WHERE `Name` = '$g2'"));
+
+        array_push( $all1, $result1[0]->{'NA_Sales'});
+        array_push( $all1, $result1[0]->{'EU_Sales'});
+        array_push( $all1, $result1[0]->{'JP_Sales'});
+        array_push( $all1, $result1[0]->{'Other_Sales'});
+        array_push( $all1, $result1[0]->{'Global_Sales'});
+
+        array_push( $all2, $result2[0]->{'NA_Sales'});
+        array_push( $all2, $result2[0]->{'EU_Sales'});
+        array_push( $all2, $result2[0]->{'JP_Sales'});
+        array_push( $all2, $result2[0]->{'Other_Sales'});
+        array_push( $all2, $result2[0]->{'Global_Sales'});
+
+        return view('compareSel', compact('all1' , 'all2'));
+
+    }
+
 }
+
+
 
 
 
