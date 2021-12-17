@@ -17,8 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'compareSelGen']);
-Route::get('/totalSel/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'totalSel']);
 Route::get('/compareSel/{g1}/{g2}', [\App\Http\Controllers\ChartController::class, 'compareSel']);
+Route::get('/totalSel/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'totalSel']);
+Route::get('/compareSelPublisher/{p1}/{p2}/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'compareSelPublisher']);
+Route::get('/compareSelGen/{t1}/{t2}', [\App\Http\Controllers\ChartController::class, 'compareSelGen']);
+
 
 

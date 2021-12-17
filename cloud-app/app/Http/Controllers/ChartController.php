@@ -77,9 +77,33 @@ class ChartController extends Controller
 
     }
 
+
+    public function compareSelPublisher($p1 , $p2 , $t1 , $t2)
+    {
+        $all1 = array();
+        $all2 = array();
+        $year = array();
+
+        while($t1 <= $t2)
+        {
+
+            $result1 = DB::connection('mysql2')->select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
+             WHERE `Year` = '$t1' AND `Publisher` = '$p1' "));
+
+            $result2 = DB::connection('mysql2')->select(DB::raw("SELECT `Publisher` , `Year` ,  SUM(`Global_Sales`) FROM `games`
+            WHERE `Year` = '$t1' AND `Publisher` = '$p2' "));
+
+            array_push( $all1, $result1[0]->{'SUM(`Global_Sales`)'});
+            array_push(  $all2, $result2[0]->{'SUM(`Global_Sales`)'});
+            array_push( $year, $result2[0]->{'Year'});
+
+            $t1 ++ ;
+        }
+
+        return view('compareSelPublisher', compact('all1' , 'all2','year'));
+    }
+
 }
-
-
 
 
 
